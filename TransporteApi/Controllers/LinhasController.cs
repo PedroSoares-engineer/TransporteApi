@@ -55,5 +55,22 @@ namespace TransporteApi.Controllers
 
             return Ok(new { mensagem = "Linha eliminada com sucesso." });
         }
+
+        [HttpPut("{id}")]
+        public IActionResult AtualizarHorario(int id, [FromBody] LinhaOnibus linhaAtualizada)
+        {
+            var linhaExiste = _context.LinhasOnibus.Find(id);
+            if (linhaExiste == null)
+            {
+                return NotFound();
+            }
+
+            // Atualiza apenas o horário e mantém o resto intacto
+            linhaExiste.ProximaPartida = linhaAtualizada.ProximaPartida;
+            _context.SaveChanges();
+
+            return Ok(linhaExiste);
+        }
+
     }
 }

@@ -55,11 +55,28 @@ export default function DashboardUsuario() {
 
     const ativarAlerta = (linha, minutos) => {
         setTempoAlerta({ ...tempoAlerta, [linha.id]: minutos });
+
         if ("vibrate" in navigator) {
             navigator.vibrate([500, 200, 500, 200, 1000]);
         }
+
         setMensagemStatus(`Alerta definido para ${linha.codigo} (${minutos} min antes).`);
         setTimeout(() => setMensagemStatus(''), 4000);
+
+        // Cálculo de tempo absoluto para não falhar em ambiente mobile
+        const tempoAlvo = Date.now() + (minutos * 60 * 1000);
+
+        const intervalo = setInterval(() => {
+            if (Date.now() >= tempoAlvo) {
+                clearInterval(intervalo);
+
+                if ("vibrate" in navigator) {
+                    navigator.vibrate([1000, 500, 1000, 500, 2000]);
+                }
+
+                alert(`⏰ ATENÇÃO: O autocarro da linha ${linha.codigo} (${linha.nome}) passa em ${minutos} minutos!`);
+            }
+        }, 1000);
     };
 
     const handleEnviarProblema = async (e) => {

@@ -138,6 +138,35 @@ export default function DashboardAdmin() {
         }
     };
 
+    const handleEditarHorario = async (id, horarioAtual) => {
+        const novoHorario = window.prompt("Digite o novo horário da partida:", horarioAtual);
+
+        if (novoHorario && novoHorario !== horarioAtual) {
+            const token = localStorage.getItem('token');
+            try {
+                const resposta = await fetch(`https://localhost:7264/api/linhas/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    // Enviamos exatamente a propriedade "proximaPartida" que corrigimos no C#
+                    body: JSON.stringify({ proximaPartida: novoHorario })
+                });
+
+                if (resposta.ok) {
+                    alert("Horário atualizado com sucesso!");
+                    carregarLinhas(token); // Atualiza a lista automaticamente sem piscar o ecrã!
+                } else {
+                    alert("Erro ao atualizar o horário. Verifique a API.");
+                }
+            } catch (erro) {
+                console.error("Erro na atualização:", erro);
+                alert("Erro de conexão ao atualizar o horário.");
+            }
+        }
+    };
+
     const sair = () => {
         localStorage.clear();
         navigate('/login');
@@ -391,37 +420,48 @@ export default function DashboardAdmin() {
                         {linhasFiltradas.length === 0 ? (
                             <p className="text-center py-10 text-slate-500 italic">Nenhum registo encontrado.</p>
                         ) : (
-                            linhasFiltradas.map((linha) => (
-                                <div key={linha.id} className="bg-[#0F172A] border border-slate-800 p-4 rounded-xl flex items-center justify-between hover:border-slate-700 transition">
-                                    <div className="flex items-center gap-4">
-                                        <span className="bg-cyan-950 text-cyan-400 border border-cyan-800 text-xs px-2.5 py-1.5 rounded-lg font-mono font-bold">
-                                            {linha.codigo}
-                                        </span>
-                                        <div>
-                                            <h3 className="font-bold text-white">{linha.nome}</h3>
-                                            <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
-                                                <MapPin className="w-3 h-3 text-cyan-400" />
-                                                {linha.cidade ? `${linha.cidade} - ${linha.estado}` : 'Sem localização definida'}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-center gap-6">
-                                        <div className="text-right">
-                                            <p className="text-xs text-emerald-400 font-semibold">{linha.status}</p>
-
-                                            {/* Esconde a partida se for Rua, Rodovia ou Vicinal */}
-                                            {(linha.nome !== 'Ruas/Avenidas' && linha.nome !== 'Rodovias' && linha.nome !== 'Vicinais') && (
-                                                <p className="text-xs text-slate-400 mt-0.5">Partida: {linha.proximaPartida}</p>
-                                            )}
+                                linhasFiltradas.map((linha) => (
+                                    <div key={linha.id} className="bg-[#0F172A] border border-slate-800 p-4 rounded-xl flex items-center justify-between hover:border-slate-700 transition">
+                                        <div className="flex items-center gap-4">
+                                            <span className="bg-cyan-950 text-cyan-400 border border-cyan-800 text-xs px-2.5 py-1.5 rounded-lg font-mono font-bold">
+                                                {linha.codigo}
+                                            </span>
+                                            <div>
+                                                <h3 className="font-bold text-white">{linha.nome}</h3>
+                                                <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
+                                                    <MapPin className="w-3 h-3 text-cyan-400" />
+                                                    {linha.cidade ? `${linha.cidade} - ${linha.estado}` : 'Sem localização definida'}
+                                                </p>
+                                            </div>
                                         </div>
 
-                                        <button onClick={() => handleExcluirLinha(linha.id)} className="text-slate-500 hover:text-red-400 transition p-2 rounded-lg bg-slate-800/40">
-                                            <Trash2 className="w-4 h-4" />
-                                        </button>
+                                        <div className="flex items-center gap-6">
+                                            <div className="text-right">
+                                                <p className="text-xs text-emerald-400 font-semibold">{linha.status}</p>
+                                                {(linha.nome !== 'Ruas/Avenidas' && linha.nome !== 'Rodovias' && linha.nome !== 'Vicinais') && (
+                                                    <p className="text-xs text-slate-400 mt-0.5">Partida: {linha.proximaPartida}</p>
+                                                )}
+                                            </div>
+
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() => handleEditarHorario(linha.id, linha.proximaPartida)}
+                                                    className="text-slate-500 hover:text-cyan-400 transition p-2 rounded-lg bg-slate-800/40 text-xs font-bold"
+                                                    title="Editar Horário"
+                                                >
+                                                    Editar
+                                                </button>
+                                                <button
+                                                    onClick={() => handleExcluirLinha(linha.id)}
+                                                    className="text-slate-500 hover:text-red-400 transition p-2 rounded-lg bg-slate-800/40"
+                                                    title="Excluir"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            ))
+                                ))
                         )}
                     </div>
                 </div>
