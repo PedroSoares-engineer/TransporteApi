@@ -39,7 +39,7 @@ export default function DashboardProprietario() {
     const carregarDados = async (token) => {
         try {
             // 1. Carregar Estatísticas Gerais
-            const resStats = await fetch('https://localhost:7264/api/estatisticas', {
+            const resStats = await fetch('https://transporteapi-5zn2.onrender.com/api/estatisticas', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (resStats.ok) {
@@ -48,7 +48,7 @@ export default function DashboardProprietario() {
             }
 
             // 2. Carregar Lista Detalhada de Linhas
-            const resLinhas = await fetch('https://localhost:7264/api/linhas', {
+            const resLinhas = await fetch('https://transporteapi-5zn2.onrender.com/api/linhas', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (resLinhas.ok) {
@@ -60,7 +60,7 @@ export default function DashboardProprietario() {
             carregarOcorrencias(token);
 
             // 4. Carregar Lista de Nomes de Usuários (NOVO)
-            const resUsuarios = await fetch('https://localhost:7264/api/usuario/todos', {
+            const resUsuarios = await fetch('https://transporteapi-5zn2.onrender.com/api/usuario/todos', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (resUsuarios.ok) {
@@ -74,7 +74,7 @@ export default function DashboardProprietario() {
 
     const carregarOcorrencias = async (token) => {
         try {
-            const res = await fetch('https://localhost:7264/api/ocorrencias', {
+            const res = await fetch('https://transporteapi-5zn2.onrender.com/api/ocorrencias', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -93,7 +93,7 @@ export default function DashboardProprietario() {
 
         const token = localStorage.getItem('token');
         try {
-            const res = await fetch(`https://localhost:7264/api/ocorrencias/${id}/resolver?mensagem=${encodeURIComponent(mensagem)}`, {
+            const res = await fetch(`https://transporteapi-5zn2.onrender.com/api/ocorrencias/${id}/resolver?mensagem=${encodeURIComponent(mensagem)}`, {
                 method: 'PUT',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

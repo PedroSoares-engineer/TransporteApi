@@ -33,7 +33,7 @@ export default function DashboardUsuario() {
 
     const carregarLinhas = async (token) => {
         try {
-            const resposta = await fetch('https://localhost:7264/api/linhas', {
+            const resposta = await fetch('https://transporteapi-5zn2.onrender.com/api/linhas', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (resposta.ok) {
@@ -87,7 +87,7 @@ export default function DashboardUsuario() {
         const token = localStorage.getItem('token');
 
         try {
-            const resposta = await fetch('https://localhost:7264/api/ocorrencias', {
+            const resposta = await fetch('https://transporteapi-5zn2.onrender.com/api/ocorrencias', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

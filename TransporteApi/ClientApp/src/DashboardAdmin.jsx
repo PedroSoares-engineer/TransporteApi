@@ -42,7 +42,7 @@ export default function DashboardAdmin() {
 
     const carregarLinhas = async (token) => {
         try {
-            const resposta = await fetch('https://localhost:7264/api/linhas', {
+            const resposta = await fetch('https://transporteapi-5zn2.onrender.com', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (resposta.ok) {
@@ -56,7 +56,7 @@ export default function DashboardAdmin() {
 
     const carregarOcorrencias = async (token) => {
         try {
-            const res = await fetch('https://localhost:7264/api/ocorrencias', {
+            const res = await fetch('https://transporteapi-5zn2.onrender.com', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -71,7 +71,7 @@ export default function DashboardAdmin() {
     const handleResolverOcorrencia = async (id) => {
         const token = localStorage.getItem('token');
         try {
-            const res = await fetch(`https://localhost:7264/api/ocorrencias/${id}/resolver`, {
+            const res = await fetch(`https://transporteapi-5zn2.onrender.com/api/ocorrencias/${id}/resolver?mensagem=${encodeURIComponent(mensagem)}`, {
                 method: 'PUT',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -88,7 +88,7 @@ export default function DashboardAdmin() {
         const token = localStorage.getItem('token');
 
         try {
-            const resposta = await fetch('https://localhost:7264/api/linhas', {
+            const resposta = await fetch('https://transporteapi-5zn2.onrender.com', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export default function DashboardAdmin() {
         const token = localStorage.getItem('token');
 
         try {
-            const resposta = await fetch(`https://localhost:7264/api/linhas/${id}`, {
+            const resposta = await fetch(`https://transporteapi-5zn2.onrender.com/api/linhas/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -144,7 +144,7 @@ export default function DashboardAdmin() {
         if (novoHorario && novoHorario !== horarioAtual) {
             const token = localStorage.getItem('token');
             try {
-                const resposta = await fetch(`https://localhost:7264/api/linhas/${id}`, {
+                const resposta = await fetch(`https://transporteapi-5zn2.onrender.com/api/linhas/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',

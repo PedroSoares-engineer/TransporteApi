@@ -15,7 +15,7 @@ export default function Login() {
         setLoading(true);
 
         try {
-            const resposta = await fetch('http://localhost:5099/api/auth/login', {
+            const resposta = await fetch('https://transporteapi-5zn2.onrender.com/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, senha })
