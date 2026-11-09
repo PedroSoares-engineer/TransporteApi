@@ -56,9 +56,9 @@ using (var scope = app.Services.CreateScope())
         db.Usuarios.AddRange(
             new TransporteApi.Models.Usuario
             {
-                Nome = "Pedro Soares (Proprietário)",
-                Email = "991863784pedro@gmail.com",
-                SenhaHash = BCrypt.Net.BCrypt.HashPassword("Pedro1506"),
+                Nome = "Coodernadorgeral (Proprietário)",
+                Email = "Coodernadorgeral@gmail.trasporteapi.com.br",
+                SenhaHash = BCrypt.Net.BCrypt.HashPassword("CoodernadorGeral12345"),
                 Regra = "Proprietario"
             },
             new TransporteApi.Models.Usuario
