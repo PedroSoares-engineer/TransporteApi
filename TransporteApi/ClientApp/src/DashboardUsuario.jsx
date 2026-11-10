@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bus, Search, Star, Bell, LogOut, MapPin, Clock, Smartphone, AlertTriangle, X } from 'lucide-react';
+import { API_URL } from './config.js';
 
 export default function DashboardUsuario() {
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function DashboardUsuario() {
 
     const carregarLinhas = async (token) => {
         try {
-            const resposta = await fetch('https://transporteapi-5zn2.onrender.com/api/linhas', {
+            const resposta = await fetch(`${API_URL}/api/linhas`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (resposta.ok) {
@@ -87,7 +88,7 @@ export default function DashboardUsuario() {
         const token = localStorage.getItem('token');
 
         try {
-            const resposta = await fetch('https://transporteapi-5zn2.onrender.com/api/ocorrencias', {
+            const resposta = await fetch(`${API_URL}/api/ocorrencias`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

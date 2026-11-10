@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserPlus, ArrowLeft, Mail, Lock, User, Phone, Calendar, MapPin } from 'lucide-react';
+import { API_URL } from './config.js';
 
 export default function Cadastro() {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function Cadastro() {
 
         try {
             // 2. Fetch apontando para a porta HTTPS correta da API (7264)
-            const resposta = await fetch('https://localhost:7264/api/auth/registrar', {
+            const resposta = await fetch(`${API_URL}/api/auth/registrar`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form)

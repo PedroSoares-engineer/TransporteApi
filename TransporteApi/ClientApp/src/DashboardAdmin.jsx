@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bus, Clock, AlertTriangle, PlusCircle, Trash2, LogOut, MapPin, Search } from 'lucide-react';
+import { API_URL } from './config.js';
 
 export default function DashboardAdmin() {
     const navigate = useNavigate();
@@ -42,7 +43,7 @@ export default function DashboardAdmin() {
 
     const carregarLinhas = async (token) => {
         try {
-            const resposta = await fetch('https://transporteapi-5zn2.onrender.com', {
+            const resposta = await fetch(`${API_URL}/api/linhas`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (resposta.ok) {
@@ -56,7 +57,7 @@ export default function DashboardAdmin() {
 
     const carregarOcorrencias = async (token) => {
         try {
-            const res = await fetch('https://transporteapi-5zn2.onrender.com', {
+            const res = await fetch(`${API_URL}/api/ocorrencias`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -71,7 +72,8 @@ export default function DashboardAdmin() {
     const handleResolverOcorrencia = async (id) => {
         const token = localStorage.getItem('token');
         try {
-            const res = await fetch(`https://transporteapi-5zn2.onrender.com/api/ocorrencias/${id}/resolver?mensagem=${encodeURIComponent(mensagem)}`, {
+            const mensagem = window.prompt("Digite a resposta da equipa para o passageiro:") ?? "";
+            const res = await fetch(`${API_URL}/api/ocorrencias/${id}/resolver?mensagem=${encodeURIComponent(mensagem)}`, {
                 method: 'PUT',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -88,7 +90,7 @@ export default function DashboardAdmin() {
         const token = localStorage.getItem('token');
 
         try {
-            const resposta = await fetch('https://transporteapi-5zn2.onrender.com', {
+            const resposta = await fetch(`${API_URL}/api/linhas`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -125,7 +127,7 @@ export default function DashboardAdmin() {
         const token = localStorage.getItem('token');
 
         try {
-            const resposta = await fetch(`https://transporteapi-5zn2.onrender.com/api/linhas/${id}`, {
+            const resposta = await fetch(`${API_URL}/api/linhas/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -144,7 +146,7 @@ export default function DashboardAdmin() {
         if (novoHorario && novoHorario !== horarioAtual) {
             const token = localStorage.getItem('token');
             try {
-                const resposta = await fetch(`https://transporteapi-5zn2.onrender.com/api/linhas/${id}`, {
+                const resposta = await fetch(`${API_URL}/api/linhas/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',

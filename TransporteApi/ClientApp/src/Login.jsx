@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bus, Lock, Mail, AlertCircle, ArrowRight } from 'lucide-react';
+import { API_URL } from './config.js';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ export default function Login() {
         setLoading(true);
 
         try {
-            const resposta = await fetch('https://transporteapi-5zn2.onrender.com/api/auth/login', {
+            const resposta = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, senha })
